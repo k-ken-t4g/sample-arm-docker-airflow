@@ -1,8 +1,13 @@
 .PHONY: clean requirements airflow
 
-## Install Docker & Netdata
-requirements:
-	bash docker_setup.sh
+## Update packages
+update:
+	sudo apt update
+	sudo apt upgrade -y
+
+## Install Docker
+docker: update
+	sudo bash setup_docker.sh
 
 ## Delete all compiled Python files
 clean:
@@ -10,8 +15,8 @@ clean:
 	find . -type d -name "__pycache__" -delete
 
 ## Create Airflow Docker
-airflow: requirements
-	sudo bash setup_airflow.sh
+airflow: docker
+	bash setup_airflow.sh
 	sudo docker-compose build
 	sudo docker-compose up airflow-init
 	sudo docker-compose up -d
