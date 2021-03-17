@@ -17,6 +17,7 @@ if [[ $(arch) = "aarch64" ]]; then
 	sudo apt-get update
 	sudo apt-get install -y docker-ce docker-ce-cli containerd.io
 	sudo pip3 install docker-compose
+	sudo systemctl start docker
 else
 	sudo apt-get purge docker-ce docker-ce-cli containerd.io
 	sudo rm -rf /var/lib/docker
@@ -24,4 +25,5 @@ else
 	curl -fsSL https://get.docker.com -o get-docker.sh	
 	sudo sh get-docker.sh
 	sudo rm get-docker.sh
+	sudo systemctl status docker
 fi
