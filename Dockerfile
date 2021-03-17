@@ -58,8 +58,6 @@ RUN addgroup --gid "${AIRFLOW_GID}" "airflow"  && \
         --home "${AIRFLOW_USER_HOME_DIR}" \
 	--gecos ""
 
-RUN groupadd -g "${DOCKER_GROUP_ID}" docker && gpasswd -a airflow docker
-
 ENV AIRFLOW_HOME=${AIRFLOW_HOME}
 
 # Make Airflow files belong to the root group and are accessible. This is to accommodate the guidelines from
