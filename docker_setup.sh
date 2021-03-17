@@ -9,7 +9,7 @@ sudo apt-get install -y \
     curl \
     gnupg
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --batch --yes --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-rm /etc/apt/sources.list.d/docker.list
+sudo rm /etc/apt/sources.list.d/docker.list
 echo \
   "deb [arch=arm64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
   $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
