@@ -1,9 +1,9 @@
-#!/bin/bash
+#!/bin/sh
 
 sudo apt-get update
 sudo apt upgrade -y
 
-if [[ $(arch) = "aarch64" ]]; then
+if [[ $(arch) = "aarch64" ]] && [ "$lsb_dist" = "ubuntu" ]  ; then
 	sudo apt-get install -y \
     	apt-transport-https \
     	ca-certificates \
@@ -16,14 +16,9 @@ if [[ $(arch) = "aarch64" ]]; then
   	$(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 	sudo apt-get update
 	sudo apt-get install -y docker-ce docker-ce-cli containerd.io
-	sudo pip3 install docker-compose
-	sudo systemctl start docker
+	sudo pip3 install 'docker-compose>=1.28'
 else
-	sudo apt-get purge docker-ce docker-ce-cli containerd.io
-	sudo rm -rf /var/lib/docker
-    sudo rm -rf /var/lib/containerd
-	curl -fsSL https://get.docker.com -o get-docker.sh	
-	sudo sh get-docker.sh
-	sudo rm get-docker.sh
-	sudo systemctl status docker
+	curl -sSL https://get.docker.com | sh
+	sudo pip3 install 'docker-compose>=1.28'
+	sudo systemctl start docker
 fi
