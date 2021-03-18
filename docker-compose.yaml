@@ -100,6 +100,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-socat
+      args:
+        ALPINE_VERSION: ${ALPINE_VERSION}
     expose:
       - 2375
     restart: always
