@@ -42,6 +42,14 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
 	netcat; \
         apt autoremove -yqq --purge
 
+RUN pip install -U pip setuptools
+
+## Install dependencies of cryptography
+RUN apt-get install build-essential libssl-dev libffi-dev python3-dev cargo -y
+
+##  Install Pandas which takes ages in RaspberryPi OS
+RUN apt-get install -y python3-pandas
+
 RUN PYTHON_VERSION="$(python --version | cut -d " " -f 2 | cut -d "." -f 1-2)"; \
     CONSTRAINT_URL="https://raw.githubusercontent.com/apache/airflow/constraints-${AIRFLOW_VERSION}/constraints-${PYTHON_VERSION}.txt"; \
     pip install "apache-airflow[postgres,slack,celery,docker,cncf.kubernetes,redis]==${AIRFLOW_VERSION}" --constraint "${CONSTRAINT_URL}" \
@@ -59,6 +67,8 @@ RUN addgroup --gid "${AIRFLOW_GID}" "airflow"  && \
 	--gecos ""
 
 ENV AIRFLOW_HOME=${AIRFLOW_HOME}
+
+RUN apt clean && apt autoremove -y --purge
 
 # Make Airflow files belong to the root group and are accessible. This is to accommodate the guidelines from
 # OpenShift https://docs.openshift.com/enterprise/3.0/creating_images/guidelines.html
