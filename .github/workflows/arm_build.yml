@@ -55,3 +55,8 @@ jobs:
           platforms: linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64,linux/ppc64le,linux/s390x
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.prep.outputs.tags }}
+          build-args: |
+            PYTHON_VERSION=3.8
+            AIRFLOW_VERSION=2.0.1
+            AIRFLOW_UID=1000
+            AIRFLOW_GID=1000
