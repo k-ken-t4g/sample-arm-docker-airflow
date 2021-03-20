@@ -46,7 +46,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       -
         name: Build ARM64 Image and push
-        id: docker_build
+        id: docker_build_arm64
         uses: docker/build-push-action@v2
         with:
           builder: ${{ steps.buildx.outputs.name }}
@@ -61,7 +61,7 @@ jobs:
 
       -
         name: Build ARM/V7 Image and push
-        id: docker_build
+        id: docker_build_armV7
         uses: docker/build-push-action@v2
         with:
           builder: ${{ steps.buildx.outputs.name }}
