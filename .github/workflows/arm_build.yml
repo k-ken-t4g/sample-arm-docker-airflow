@@ -6,7 +6,6 @@ on:
   push:
     branches:
      - main
-     - github-action
     tags:
 
 jobs:
@@ -16,7 +15,7 @@ jobs:
       - name: Prepare
         id: prep
         run: |
-          DOCKER_IMAGE=kkent4g/sample-arm-docker-airflow
+          DOCKER_IMAGE=kkent4g/airflow-sample-arm
           VERSION=edge
           if [[ $GITHUB_REF == refs/tags/* ]]; then
             VERSION=${GITHUB_REF#refs/tags/v}
@@ -45,13 +44,16 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       -
-        name: Build and push
-        id: docker_build
+        name: Build ARM64 Image and push
+        id: docker_build_arm64
         uses: docker/build-push-action@v2
         with:
           builder: ${{ steps.buildx.outputs.name }}
-          context: ./
-          file: ./Dockerfile
-          platforms: linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64,linux/ppc64le,linux/s390x
+          platforms: linux/arm64
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.prep.outputs.tags }}
+          build-args: |
+            PYTHON_VERSION=3.8
+            AIRFLOW_VERSION=2.0.1
+            AIRFLOW_UID=1000
+            AIRFLOW_GID=1000

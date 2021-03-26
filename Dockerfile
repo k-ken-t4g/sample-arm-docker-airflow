@@ -38,8 +38,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
         sasl2-bin \
         sqlite3 \
         unixodbc \
-	dumb-init \
-	netcat; \
+	    dumb-init \
+	    netcat; \
         apt autoremove -yqq --purge
 
 RUN pip install -U pip setuptools
@@ -63,7 +63,7 @@ ENV GUNICORN_CMD_ARGS="--worker-tmp-dir /dev/shm"
 RUN addgroup --gid "${AIRFLOW_GID}" "airflow"  && \
     adduser --quiet "airflow" --uid "${AIRFLOW_UID}" \
 	--gid "${AIRFLOW_GID}" \
-        --home "${AIRFLOW_USER_HOME_DIR}" \
+    --home "${AIRFLOW_USER_HOME_DIR}" \
 	--gecos ""
 
 ENV AIRFLOW_HOME=${AIRFLOW_HOME}
@@ -77,7 +77,7 @@ RUN mkdir -pv "${AIRFLOW_HOME}"; \
     mkdir -pv "${AIRFLOW_HOME}/logs"; \
     chown -R "airflow:root" "${AIRFLOW_USER_HOME_DIR}" "${AIRFLOW_HOME}"; \
     find "${AIRFLOW_HOME}" -executable -print0 | xargs --null chmod g+x && \
-        find "${AIRFLOW_HOME}" -print0 | xargs --null chmod g+rw
+    find "${AIRFLOW_HOME}" -print0 | xargs --null chmod g+rw
 
 COPY --chown=airflow:root entrypoint/entrypoint_prod.sh /entrypoint
 COPY --chown=airflow:root entrypoint/clean-logs.sh /clean-logs
