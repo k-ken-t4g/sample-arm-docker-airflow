@@ -10,9 +10,6 @@ on:
      - main
     tags:
 
-env:
-  VERSION: "1.0"
-
 jobs:
   buildx:
     runs-on: ubuntu-latest
@@ -22,8 +19,9 @@ jobs:
         run: |
           DOCKER_IMAGE=kkent4g/airflow-sample-arm
           VERSION=edge
-          if [[ $GITHUB_REF == refs/tags/* ]]; then
-            VERSION=${GITHUB_REF#refs/tags/v}
+          REPOSITORY=$(echo ${{ github.repository }} | sed -e "s#.*/##")
+          if [[ "${{ github.ref }}"  == refs/tags/* ]]; then
+            VERSION=$(echo ${{ github.ref }} | sed -e "s#refs/tags/##g")
           fi
           if [ "${{ github.event_name }}" = "schedule" ]; then
             VERSION=nightly
