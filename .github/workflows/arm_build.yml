@@ -9,6 +9,7 @@ on:
     branches:
      - main
     tags:
+      - v*
 
 jobs:
   buildx:
@@ -21,7 +22,7 @@ jobs:
           VERSION=edge
           REPOSITORY=$(echo ${{ github.repository }} | sed -e "s#.*/##")
           if [[ "${{ github.ref }}"  == refs/tags/* ]]; then
-            VERSION=$(echo ${{ github.ref }} | sed -e "s#refs/tags/##g")
+            VERSION=$(echo ${{ github.ref }} | sed -e "s#refs/tags/v##g")
           fi
           if [ "${{ github.event_name }}" = "schedule" ]; then
             VERSION=nightly
