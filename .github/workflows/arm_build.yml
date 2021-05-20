@@ -58,6 +58,6 @@ jobs:
           tags: ${{ steps.prep.outputs.tags }}
           build-args: |
             PYTHON_VERSION=3.8
-            AIRFLOW_VERSION=2.0.1
+            AIRFLOW_VERSION=2.0.2
             AIRFLOW_UID=1000
             AIRFLOW_GID=1000
